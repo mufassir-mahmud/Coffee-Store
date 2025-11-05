@@ -1,18 +1,32 @@
 import React from "react";
+import Swal from 'sweetalert2';
+
 
 const AddCoffee = () => {
    const handleAddCoffee = e =>{
     e.preventDefault();
     const form = e.target;
-    const coffee = form.coffee.value;
-    const chef = form.chef.value;
-    const supplier = form.supplier.value;
-    const taste = form.taste.value;
-    const category = form.category.value; 
-    const details = form.details.value;
-    const photo = form.photo.value;
-    const newCoffee = {coffee,chef,supplier,taste,category,details,photo};
-    console.log(newCoffee)
+    const formData = new FormData(form);
+    const newCoffee = Object.fromEntries(formData);
+    console.log(newCoffee);
+    fetch('http://localhost:3001/coffees',{
+      method: "POST",
+      headers: {
+        'content-type' : 'application/json'
+      },
+      body: JSON.stringify(newCoffee)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+  Swal.fire({
+      title: "Coffee Added!",
+      text: "Your coffee has been added successfully.",
+      icon: "success",
+      confirmButtonText: "OK"
+    });
+      form.reset()
+    })
    }
     return (
     <div className="p-24 ">
@@ -32,6 +46,7 @@ const AddCoffee = () => {
                 <input
                   type="text"
                   name="coffee"
+                  required
                   className="input w-full"
                   placeholder="Coffee Name"
                 />
@@ -41,6 +56,7 @@ const AddCoffee = () => {
                 <input
                   type="text"
                   name="chef"
+                  required
                   className="input w-full"
                   placeholder="Chef Name"
                 />
@@ -50,6 +66,7 @@ const AddCoffee = () => {
                 <input
                   type="text"
                   name="supplier"
+                  required
                   className="input w-full"
                   placeholder="Supplier Name"
                 />
@@ -59,17 +76,19 @@ const AddCoffee = () => {
                 <input
                   type="text"
                   name="taste"
+                  required
                   className="input w-full"
                   placeholder="Taste Name"
                 />
               </fieldset>
               <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
-                <label className="label">Category</label>
+                <label className="label">Price</label>
                 <input
                   type="text"
-                  name="category"
+                  name="price"
+                  required
                   className="input w-full"
-                  placeholder="Category Name"
+                  placeholder="Price"
                 />
               </fieldset>
               <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
@@ -77,6 +96,7 @@ const AddCoffee = () => {
                 <input
                   type="text"
                   name="details"
+                  required
                   className="input w-full"
                   placeholder="Details Name"
                 />
@@ -85,7 +105,7 @@ const AddCoffee = () => {
             <div className="p-4 flex flex-col gap-5 w-full">
                 <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
               <label className="label">Photo</label>
-              <input type="text" className="input w-full" name="photo" placeholder="Photo url" />
+              <input type="text" className="input w-full" name="photo" required placeholder="Photo url" />
             </fieldset>
                    
                 

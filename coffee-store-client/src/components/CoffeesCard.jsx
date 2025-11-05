@@ -4,11 +4,11 @@ import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { Link } from 'react-router';
-const CoffeesCard = ({initialCoffees}) => {
+const CoffeesCard = ({initialCoffees,setCoffees,coffees}) => {
     const {_id,coffee,price,taste,photo} = initialCoffees;
     // const [coffees, setCoffees] = useState(initialCoffees);
     // console.log(coffees)
-    const handleDelete = (id) =>{
+    const handleDelete = (_id) =>{
         Swal.fire({
   title: "Are you sure?",
   text: "You won't be able to revert this!",
@@ -19,7 +19,7 @@ const CoffeesCard = ({initialCoffees}) => {
   confirmButtonText: "Yes, delete it!"
 }).then((result) => {
   if (result.isConfirmed) {
-    fetch(`http://localhost:3001/coffees/${id}`,{
+    fetch(`http://localhost:3001/coffees/${_id}`,{
         method: 'DELETE'
     })
     .then(res => res.json())
@@ -31,8 +31,8 @@ Swal.fire({
       icon: "success"
     });
 
-    // const remainingCoffees = coffees.filter(coffee => coffee._id !== id);
-    // setCoffees(remainingCoffees)
+    const remainingCoffees = coffees.filter(cof => cof._id !== _id);
+    setCoffees(remainingCoffees)
         }
     })
     
@@ -58,7 +58,8 @@ Swal.fire({
     <div className="flex flex-col gap-3">
         
       <Link to={`/coffees-details/${_id}`}><button className="btn btn-sm btn-primary"><FaEye /></button></Link>
-      <button className="btn btn-sm btn-neutral"><MdEdit /></button>
+      <Link to={`/updateCoffee/${_id}`}><button className="btn btn-sm btn-neutral"><MdEdit /></button></Link>
+      
       <button className="btn btn-sm btn-error" onClick={() => handleDelete(_id)}> <RiDeleteBin2Fill /></button>
     </div>
   </div>

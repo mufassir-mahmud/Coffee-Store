@@ -52,6 +52,17 @@ async function run() {
       const result = await coffeesCollection.deleteOne(query);
       res.send(result)
     })
+    app.put("/coffees/:id", async(req,res)=>{
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)};
+      const updatedCoffe = req.body;
+      const options = {upsert : true};
+      const updatedDoc = {
+        $set : updatedCoffe
+      }
+      const result = await coffeesCollection.updateOne(filter,updatedDoc,options);
+      res.send(result)
+    })
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close(); 

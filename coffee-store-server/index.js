@@ -29,6 +29,7 @@ async function run() {
     
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
     const coffeesCollection = client.db("CoffeesDB").collection("Coffees");
+    const usersCollection = client.db("CoffesDB").collection("Users")
     app.get("/coffees", async(req,res)=>{
       const result = await coffeesCollection.find().toArray();
       res.send(result)
@@ -63,6 +64,18 @@ async function run() {
       const result = await coffeesCollection.updateOne(filter,updatedDoc,options);
       res.send(result)
     })
+
+    // For Users
+    app.post("/users", async(req,res)=>{
+      const newUser = req.body;
+      const result = await usersCollection.insertOne(newUser);
+      res.send(result)
+    })
+    app.get("/users", async(req,res)=>{
+      const result = await usersCollection.find().toArray();
+      res.send(result)
+    })
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close(); 

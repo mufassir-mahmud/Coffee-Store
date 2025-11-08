@@ -1,10 +1,42 @@
 import React, { useState } from 'react';
+import { RiDeleteBin2Fill } from 'react-icons/ri';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const Users = () => {
     const initialUsers = useLoaderData();
     const [users, setUsers] = useState(initialUsers);
-
+    const handleDelete =(_id) =>{
+     console.log(_id)
+      Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    fetch(`http://localhost:3001/users/${_id}`,{
+      method: 'DELETE',
+      
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.deletedCount){
+        const remainingUser = users.filter(user => user._id !== _id);
+        setUsers(remainingUser)
+        Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+      }
+    })
+  }
+});
+    }
     return (
         <div>
             <div className="overflow-x-auto">
@@ -13,24 +45,20 @@ const Users = () => {
     <thead>
       <tr>
         <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
+          No
         </th>
         <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Phone</th>
+        <th>Email</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       {/* row 1 */}
       {
-        users.map(user => <tr>
+        users.map((user,index) => <tr>
         <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
+          {index + 1}
         </th>
         <td>
           <div className="flex items-center gap-3">
@@ -48,13 +76,13 @@ const Users = () => {
           </div>
         </td>
         <td>
-          Zemlak, Daniel and Leannon
-          <br />
-          <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
+         {user.phone}
+          
+          
         </td>
-        <td>Purple</td>
+        <td>{user.email}</td>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <button className="btn btn-sm btn-error" onClick={() => handleDelete(user._id)}> <RiDeleteBin2Fill /></button>
         </th>
       </tr>)
       }

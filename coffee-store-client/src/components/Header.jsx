@@ -15,6 +15,7 @@ const Header = () => {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 gap-3 shadow">
         <li className='btn btn-primary'><NavLink to={'/addCoffee'}>Add Coffee</NavLink></li>
         <li className='btn btn-primary'><NavLink to={'/signIn'}>Sign In</NavLink></li>
+        <li className='btn btn-primary'><NavLink to={'/signUp'}>Sign Up </NavLink></li>
         <li className='btn btn-primary'><NavLink to={'/users'}>Users </NavLink></li>
         
         
@@ -27,6 +28,7 @@ const Header = () => {
     <ul className="menu menu-horizontal px-1 gap-3">
       <li className='btn btn-primary'><NavLink to={'/addCoffee'}>Add Coffee</NavLink></li>
       <li className='btn btn-primary'><NavLink to={'/signIn'}>Sign In</NavLink></li>
+      <li className='btn btn-primary'><NavLink to={'/signUp'}>Sign Up </NavLink></li>
       <li className='btn btn-primary'><NavLink to={'/users'}>Users </NavLink></li>
     </ul>
   </div>

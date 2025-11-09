@@ -12,7 +12,7 @@ const UpdateCoffee = () => {
         const formData = new FormData(form);
         const updateCoffee = Object.fromEntries(formData);
         console.log(updateCoffee)
-        fetch(`http://localhost:3001/coffees/${_id}`,{
+        fetch(`https://coffee-store-server-xi-ashen.vercel.app/coffees/${_id}`,{
             method: 'PUT',
             headers: {
         'content-type' : 'application/json'

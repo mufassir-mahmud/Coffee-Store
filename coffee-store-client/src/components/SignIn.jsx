@@ -17,7 +17,7 @@ const SignIn = () => {
     createUser(email, password)
       .then((result) => {
         console.log(result.user);
-        fetch("http://localhost:3001/users", {
+        fetch("https://coffee-store-server-xi-ashen.vercel.app/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
